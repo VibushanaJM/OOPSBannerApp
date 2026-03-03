@@ -1,27 +1,86 @@
 /**
  * @author [VIBUSHANA]
- * @version 1.0 UC4-OOPS Banner Printing with Array & Loops
+ * @version 1.0 UC7-Inner Classs
  */
-public class OOPSBannerApp{
+public class OOPSBannerApp {
 
-    public static void main(String[] args) {
-        // Now we just call the method instead of writing all the print lines here
-        displayOopsBanner();
+    static class CharacterPatternMap {
+        Character character;
+        String[] pattern;
+
+        public CharacterPatternMap(Character character, String[] pattern) {
+            this.character = character;
+            this.pattern = pattern;
+        }
+
+        public static String[] getCharacterPattern(char ch, CharacterPatternMap[] charMaps) {
+            for (CharacterPatternMap charMap : charMaps) {
+                if (charMap.character == ch) {
+                    return charMap.pattern;
+                }
+            }
+            return null;
+        }
+
+        public static void printMessage(String message, CharacterPatternMap[] charMaps) {
+            StringBuilder[] output = new StringBuilder[5];
+
+            for (int i = 0; i < 5; i++) {
+                output[i] = new StringBuilder();
+            }
+
+            for (char ch : message.toCharArray()) {
+                String[] pattern = getCharacterPattern(ch, charMaps);
+
+                if (pattern != null) {
+                    for (int i = 0; i < 5; i++) {
+                        output[i].append(pattern[i]).append("   "); // equal spacing
+                    }
+                }
+            }
+
+            for (StringBuilder line : output) {
+                System.out.println(line);
+            }
+        }
+
+        public static CharacterPatternMap[] createCharacterPatternMaps() {
+            return new CharacterPatternMap[] {
+
+                // Each letter width = 10 characters
+
+                new CharacterPatternMap('O', new String[] {
+                    "  ******  ",
+                    " **    ** ",
+                    " **    ** ",
+                    " **    ** ",
+                    "  ******  "
+                }),
+
+                new CharacterPatternMap('P', new String[] {
+                    " ******   ",
+                    " **    ** ",
+                    " ******   ",
+                    " **        ",
+                    " **        "
+                }),
+
+                new CharacterPatternMap('S', new String[] {
+                    "  ******  ",
+                    " **        ",
+                    "  ******  ",
+                    "      **  ",
+                    " ******   "
+                })
+            };
+        }
     }
 
-    // This is the new function (method) we created to hold the banner logic
-    public static void displayOopsBanner() {
-        String[] lines = new String[7];
-        lines[0] = String.join(" ","  ***   ","  ***  ","******","   ***** ");
-        lines[1] = String.join(" ","**    **","**   **","*    *"," **      ");
-        lines[2] = String.join(" ","**    **","**   **","*    *"," **      ");
-        lines[3] = String.join(" ","**    **","**   **","****** ","  *****  ");
-        lines[4] = String.join(" ","**    **","**   **","**    ","        ** ");
-        lines[5] = String.join(" ","**    **","**   **","**    "," **     ** ");
-        lines[6] = String.join(" ","  ***   ","  ***  ","**    ","   *****      ");
+    public static void main(String[] args) {
+        CharacterPatternMap[] charmaps =
+                CharacterPatternMap.createCharacterPatternMaps();
 
-   for (String line : lines) {
-    System.out.println(line);
-   }
-}
+        String message = "OOPS";
+        CharacterPatternMap.printMessage(message, charmaps);
+    }
 }
